@@ -2,7 +2,8 @@ import  urllib.parse
 import requests
 from bs4 import BeautifulSoup
 from lxml import html
-import xlwt
+from openpyxl import Workbook
+from datetime import datetime
 
 answer = []
 
@@ -83,5 +84,27 @@ def main():
     get_html_id(urlglobal)
     return
 
+def check_to_xlsx():
+    wb = Workbook(write_only=False)
+    ws = wb.active
+    ws['A1'] = description[0]
+    ws['B1'] = description[1]
+    ws['C1'] = description[2]
+    ws['D1'] = description[3]
+    ws['E1'] = description[4]
+    i = 2
+    for rec in range(len(answer)):
+        ws.cell(row=i, column=1).value = answer[rec].number
+        ws.cell(row=i, column=2).value = answer[rec].name
+        ws.cell(row=i, column=3).value = answer[rec].inn
+        ws.cell(row=i, column=4).value = answer[rec].FIO
+        ws.cell(row=i, column=5).value = answer[rec].info
+        i += 1
+    wb.save('new_big_file.xlsx')
+    return
+
+
 if __name__ == '__main__':
+#    check_to_xlsx()
     main()
+    check_to_xlsx()
